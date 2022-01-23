@@ -1,0 +1,194 @@
+{
+    "cartelera": [
+      {
+        "id": 1,
+        "Title": "Avengers: Endgame",
+        "Year": "2019",
+        "Rated": "PG-13",
+        "Released": "26 Apr 2019",
+        "Runtime": "181 min",
+        "Genre": "Action, Adventure, Drama",
+        "Director": "Anthony Russo, Joe Russo",
+        "Writer": "Christopher Markus, Stephen McFeely, Stan Lee",
+        "Actors": "Robert Downey Jr., Chris Evans, Mark Ruffalo",
+        "Plot": "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins due to the efforts of the Mad Titan, Thanos. With the help of remaining allies, the Avengers must assemble once more in order to undo Thanos's actions and undo the chaos to the universe, no matter what consequences may be in store, and no matter who they face...",
+        "Language": "English, Japanese, Xhosa, German",
+        "Country": "United States",
+        "Awards": "Nominated for 1 Oscar. 70 wins &amp; 123 nominations total",
+        "Poster": "https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_SX300.jpg",
+        "Ratings": [
+          {
+            "Source": "Internet Movie Database",
+            "Value": "8.4/10"
+          },
+          {
+            "Source": "Rotten Tomatoes",
+            "Value": "94%"
+          },
+          {
+            "Source": "Metacritic",
+            "Value": "78/100"
+          }
+        ],
+        "Metascore": "78",
+        "imdbRating": "8.4",
+        "imdbVotes": "948,888",
+        "imdbID": "tt4154796",
+        "Type": "movie",
+        "DVD": "30 Jul 2019",
+        "BoxOffice": "$858,373,000",
+        "Production": "N/A",
+        "Website": "N/A",
+        "Response": "True"
+      },
+      {
+        "id": 2,
+        "Title": "Harry Potter and the Deathly Hallows: Part 2",
+        "Year": "2011",
+        "Rated": "PG-13",
+        "Released": "15 Jul 2011",
+        "Runtime": "130 min",
+        "Genre": "Adventure, Fantasy, Mystery",
+        "Director": "David Yates",
+        "Writer": "Steve Kloves, J.K. Rowling",
+        "Actors": "Daniel Radcliffe, Emma Watson, Rupert Grint",
+        "Plot": "Harry (Daniel Radcliffe), Ron (Rupert Grint), and Hermione (Emma Watson) continue their quest of finding and destroying Voldemort's (Ralph Fiennes') three remaining Horcruxes, the magical items responsible for his immortality. But as the mystical Deathly Hallows are uncovered, and Voldemort finds out about their mission, the biggest battle begins, and life as they know it will never be the same again.",
+        "Language": "English, Latin",
+        "Country": "United Kingdom, United States",
+        "Awards": "Nominated for 3 Oscars. 46 wins & 94 nominations total",
+        "Poster": "https://m.media-amazon.com/images/M/MV5BMGVmMWNiMDktYjQ0Mi00MWIxLTk0N2UtN2ZlYTdkN2IzNDNlXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_SX300.jpg",
+        "Ratings": [
+          {
+            "Source": "Internet Movie Database",
+            "Value": "8.1/10"
+          },
+          {
+            "Source": "Rotten Tomatoes",
+            "Value": "96%"
+          },
+          {
+            "Source": "Metacritic",
+            "Value": "85/100"
+          }
+        ],
+        "Metascore": "85",
+        "imdbRating": "8.1",
+        "imdbVotes": "806,041",
+        "imdbID": "tt1201607",
+        "Type": "movie",
+        "DVD": "11 Nov 2011",
+        "BoxOffice": "$381,409,310",
+        "Production": "N/A",
+        "Website": "N/A",
+        "Response": "True"
+      },
+      {
+        "id": 3,
+        "Title": "Se7en",
+        "Year": "1995",
+        "Rated": "R",
+        "Released": "22 Sep 1995",
+        "Runtime": "127 min",
+        "Genre": "Crime, Drama, Mystery",
+        "Director": "David Fincher",
+        "Writer": "Andrew Kevin Walker",
+        "Actors": "Morgan Freeman, Brad Pitt, Kevin Spacey",
+        "Plot": "A film about two homicide detectives' (Morgan Freeman and Brad Pitt) desperate hunt for a serial killer who justifies his crimes as absolution for the world's ignorance of the Seven Deadly Sins. The movie takes us from the tortured remains of one victim to the next as the sociopathic \"John Doe\" (Kevin Spacey) sermonizes to Detectives Somerset and Mills -- one sin at a time. The sin of Gluttony comes first and the murderer's terrible capacity is graphically demonstrated in the dark and subdued tones characteristic of film noir. The seasoned and cultured but jaded Somerset researches the Seven Deadly Sins in an effort to understand the killer's modus operandi while the bright but green and impulsive Detective Mills (Pitt) scoffs at his efforts to get inside the mind of a killer...",
+        "Language": "English",
+        "Country": "United States",
+        "Awards": "Nominated for 1 Oscar. 29 wins & 43 nominations total",
+        "Poster": "https://m.media-amazon.com/images/M/MV5BOTUwODM5MTctZjczMi00OTk4LTg3NWUtNmVhMTAzNTNjYjcyXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+        "Ratings": [
+          {
+            "Source": "Internet Movie Database",
+            "Value": "8.6/10"
+          },
+          {
+            "Source": "Rotten Tomatoes",
+            "Value": "82%"
+          },
+          {
+            "Source": "Metacritic",
+            "Value": "65/100"
+          }
+        ],
+        "Metascore": "65",
+        "imdbRating": "8.6",
+        "imdbVotes": "1,520,496",
+        "imdbID": "tt0114369",
+        "Type": "movie",
+        "DVD": "19 Dec 2000",
+        "BoxOffice": "$100,125,643",
+        "Production": "N/A",
+        "Website": "N/A",
+        "Response": "True"
+      },
+      {
+        "id": 4,
+        "Title": "Fantastic Beasts and Where to Find Them",
+        "Year": "2016",
+        "Rated": "PG-13",
+        "Released": "18 Nov 2016",
+        "Runtime": "132 min",
+        "Genre": "Adventure, Family, Fantasy",
+        "Director": "David Yates",
+        "Writer": "J.K. Rowling",
+        "Actors": "Eddie Redmayne, Katherine Waterston, Alison Sudol",
+        "Plot": "In mid-1920s New York, Newt Scamander, a British young activist wizard, arrives in the city, holding a mysterious leather suitcase that shelters diverse and magical creatures that exist among us. Amid an already fragile equilibrium of secrecy, and the increasing disasters ascribed to the dark wizard, Gellert Grindelwald, Newt's precious suitcase goes missing, and to make matters worse, several creatures manage to escape. Before long, this unforeseen complication catches Senior Auror Percival Graves' attention who targets Newt, against the backdrop of an invisible, devastating, and utterly unpredictable menace that still wreaks havoc on 5th Avenue. In the end, is there a hidden agenda behind Graves' intentions? Moreover, what will happen to the remaining fantastic beasts that are still on the loose?",
+        "Language": "English, Central Khmer",
+        "Country": "United Kingdom, United States",
+        "Awards": "Won 1 Oscar. 15 wins & 54 nominations total",
+        "Poster": "https://m.media-amazon.com/images/M/MV5BMjMxOTM1OTI4MV5BMl5BanBnXkFtZTgwODE5OTYxMDI@._V1_SX300.jpg",
+        "Ratings": [
+          {
+            "Source": "Internet Movie Database",
+            "Value": "7.3/10"
+          },
+          {
+            "Source": "Rotten Tomatoes",
+            "Value": "74%"
+          },
+          {
+            "Source": "Metacritic",
+            "Value": "66/100"
+          }
+        ],
+        "Metascore": "66",
+        "imdbRating": "7.3",
+        "imdbVotes": "429,936",
+        "imdbID": "tt3183660",
+        "Type": "movie",
+        "DVD": "28 Mar 2017",
+        "BoxOffice": "$234,037,575",
+        "Production": "N/A",
+        "Website": "N/A",
+        "Response": "True"
+      },
+      {
+        "Title": "SASSSSSSSSSSSA",
+        "Genre": "",
+        "Year": "",
+        "Runtime": "",
+        "Director": "",
+        "Released": "",
+        "Writer": "",
+        "Actors": "",
+        "imdbRating": "",
+        "Poster": "img/subir/",
+        "id": 5
+      },
+      {
+        "Title": "perrrrrrrrrrro",
+        "Genre": "ADSD",
+        "Year": "DAD",
+        "Runtime": "AD",
+        "Director": "DA",
+        "Released": "2022-01-13",
+        "Writer": "DA",
+        "Actors": "DA",
+        "imdbRating": "23",
+        "Poster": "img/subir/cara.JPG",
+        "id": 6
+      }
+    ]
+  }
