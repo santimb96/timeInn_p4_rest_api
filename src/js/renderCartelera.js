@@ -2,8 +2,10 @@
  * @author oasiao@cifpfbmoll.eu, smartinez@cifpfbmoll.eu
  * @version 1.0.0
  */
-import {cartelera} from './modules/cartelera.js';
-import {imageAsButton} from './modules/movieDescription.js';
+//import {cartelera} from './modules/cartelera.js';
+import {
+    imageAsButton
+} from './modules/movieDescription.js';
 
 const renderCartelera = {
     /**
@@ -21,14 +23,25 @@ const renderCartelera = {
     renderCartelera: function () {
         let contador = 0;
         let tituloRep = "";
-        this.cartelera.innerHTML += `<h2 class="carteleraTitulo">CARTELERA</h2>`;
-        cartelera.forEach(pelicula => {
-            if (tituloRep !== pelicula.Title) {
-                this.cartelera.innerHTML += this.renderPeliculas(pelicula,contador);
-                tituloRep = pelicula.Title;
-                contador++;
-            }
-        });
+        const uri = 'http://localhost:3001/cartelera';
+
+        const data = async () => {
+            let data = await fetch(uri);
+            let json = await data.json();
+
+            console.log(json);
+
+            this.cartelera.innerHTML += `<h2 class="carteleraTitulo">CARTELERA</h2>`;
+            
+            json.forEach(pelicula=>{
+                if (tituloRep !== pelicula.Title) {
+                    this.cartelera.innerHTML += this.renderPeliculas(pelicula, contador);
+                    tituloRep = pelicula.Title;
+                    contador++;
+                }
+            });
+        }
+        data(uri);
     },
     /**
      * listener de los botones mediante un addEventListener()
@@ -63,7 +76,7 @@ const renderCartelera = {
      */
     borrarCarta: function (carta) {
         let indice = carta.getAttribute('id');
-        cartelera.splice(indice,1);
+        cartelera.splice(indice, 1);
         carta.remove();
     },
     /**
@@ -83,10 +96,10 @@ const renderCartelera = {
         let inputForms = document.querySelectorAll('.inputForm');
 
         cartelera.forEach(carta => {
-            if (carta.Title === pelicula){
+            if (carta.Title === pelicula) {
                 inputForms.forEach(input => {
-                    for (let key in carta){
-                        if (input.getAttribute('name') === key){
+                    for (let key in carta) {
+                        if (input.getAttribute('name') === key) {
                             input.value = carta[key];
                         }
                     }
@@ -126,8 +139,8 @@ const renderCartelera = {
             this.scroll.style.display = "block";
 
             this.renderNuevaCartelera(form.get('Title'), form.get('Genre'), form.get('Year'),
-                form.get('Runtime'), form.get('Poster'),form.get('Plot'),form.get('Director'),form.get('Released'),
-                form.get('Writer'),form.get('Actors'),form.get('Awards'),form.get('imdbRating'),pelicula);
+                form.get('Runtime'), form.get('Poster'), form.get('Plot'), form.get('Director'), form.get('Released'),
+                form.get('Writer'), form.get('Actors'), form.get('Awards'), form.get('imdbRating'), pelicula);
 
 
         }.bind(this));
@@ -156,13 +169,13 @@ const renderCartelera = {
                 carta.Genre = Genre;
                 carta.Year = Year;
                 carta.Runtime = Runtime;
-                if (Poster.name.includes('.jpg')||Poster.name.includes('.png')||Poster.name.includes('.jpeg')){
+                if (Poster.name.includes('.jpg') || Poster.name.includes('.png') || Poster.name.includes('.jpeg')) {
                     carta.Poster = `img/subir/${Poster.name}`;
                 }
                 carta.Plot = Plot;
                 carta.Director = Director;
 
-                if (Released !== ""){
+                if (Released !== "") {
                     carta.Released = Released;
                 }
                 carta.Writer = Writer;
@@ -204,7 +217,7 @@ const renderCartelera = {
             const form = new FormData(formId);
             let formObject = {};
 
-            if (this.camposValidados()){
+            if (this.camposValidados()) {
 
                 form.forEach((value, key) => {
                     formObject[key] = value;
@@ -235,8 +248,8 @@ const renderCartelera = {
     /**
      * filtra películas por género, año o título
      */
-    filter : function (){
-        document.getElementById("filterButton").addEventListener('click', function (){
+    filter: function () {
+        document.getElementById("filterButton").addEventListener('click', function () {
             let contador = 0;
             let filter = document.getElementById('filterInput').value;
             filter = filter.toLowerCase();
@@ -244,34 +257,31 @@ const renderCartelera = {
             let option = select.options[select.selectedIndex].value;
             this.cartelera.innerHTML = `<h1>CARTELERA</h1>`;
             cartelera.forEach(pelicula => {
-                if (option === 'Year'){
-                    if (pelicula.Year === filter){
-                        this.cartelera.innerHTML += this.renderPeliculas(pelicula,contador);
+                if (option === 'Year') {
+                    if (pelicula.Year === filter) {
+                        this.cartelera.innerHTML += this.renderPeliculas(pelicula, contador);
                         contador++;
                     }
-                }
-                else if(option === 'Title'){
+                } else if (option === 'Title') {
                     let titulo = pelicula.Title.toLowerCase();
-                    if (titulo.includes(filter)){
-                        this.cartelera.innerHTML += this.renderPeliculas(pelicula,contador);
+                    if (titulo.includes(filter)) {
+                        this.cartelera.innerHTML += this.renderPeliculas(pelicula, contador);
                         contador++;
                     }
-                }
-                else if(option === 'Genre'){
+                } else if (option === 'Genre') {
                     let genero = pelicula.Genre.toLowerCase();
-                    if (genero.includes(filter)){
-                        this.cartelera.innerHTML += this.renderPeliculas(pelicula,contador);
+                    if (genero.includes(filter)) {
+                        this.cartelera.innerHTML += this.renderPeliculas(pelicula, contador);
                         contador++;
                     }
-                }
-                else{
+                } else {
                     console.log("ERROR");
                 }
             });
 
             document.getElementById('cleanFilter').style.display = "block";
 
-            if (contador === 0){
+            if (contador === 0) {
                 document.querySelector('.cartelera').innerHTML += `No hay resultados para tu búsqueda.`;
             }
 
@@ -286,10 +296,10 @@ const renderCartelera = {
     /**
      * limpia el filtro
      */
-    cleanFilter : function (){
-        document.getElementById('cleanFilter').addEventListener('click',function (){
+    cleanFilter: function () {
+        document.getElementById('cleanFilter').addEventListener('click', function () {
             document.getElementById('cleanFilter').style.display = "none";
-            document.getElementById('filterInput').value="";
+            document.getElementById('filterInput').value = "";
             this.cartelera.innerHTML = "";
             this.filter();
             this.renderCartelera();
@@ -297,7 +307,7 @@ const renderCartelera = {
 
         }.bind(this));
     },
-    renderPeliculas : function(pelicula,contador){
+    renderPeliculas: function (pelicula, contador) {
         return `<div id="${contador}" class="pelicula" name="${pelicula.Title}" >
                                             <div id="${contador}" class="img-container" name="${(pelicula.Title).toLowerCase()}" ><img src="${pelicula.Poster}" alt="${pelicula.Title}"></div>
                                             
@@ -322,15 +332,14 @@ const renderCartelera = {
      * valida los campos del formulario
      * @returns {boolean}
      */
-    camposValidados : function (){
+    camposValidados: function () {
         let inputForms = document.querySelectorAll('.inputForm');
         let validated = true;
         inputForms.forEach(input => {
-            if (input.value === "" || input.value === null){
+            if (input.value === "" || input.value === null) {
                 validated = false;
                 input.classList.add('campoVacio');
-            }
-            else{
+            } else {
                 input.classList.remove('campoVacio');
             }
         });
@@ -340,8 +349,8 @@ const renderCartelera = {
     /**
      * función para cerrar el filtro
      */
-    back : function (){
-        document.getElementById('back').addEventListener('click',function (){
+    back: function () {
+        document.getElementById('back').addEventListener('click', function () {
             document.querySelector('.filter').style.display = "flex";
             document.querySelector('.add-button').style.display = "block";
             document.querySelector('.divBack').style.display = "none";
