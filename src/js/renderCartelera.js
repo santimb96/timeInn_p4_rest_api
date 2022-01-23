@@ -21,7 +21,7 @@ const renderCartelera = {
      * renderiza la cartelera a prueba de errores
      */
     renderCartelera: function () {
-        let contador = 0;
+
         let tituloRep = "";
         const uri = 'http://localhost:3001/cartelera';
 
@@ -32,12 +32,16 @@ const renderCartelera = {
             console.log(json);
 
             this.cartelera.innerHTML += `<h2 class="carteleraTitulo">CARTELERA</h2>`;
-            
-            json.forEach(pelicula=>{
+
+            json.forEach(pelicula => {
                 if (tituloRep !== pelicula.Title) {
-                    this.cartelera.innerHTML += this.renderPeliculas(pelicula, contador);
+                    this.cartelera.innerHTML += this.renderPeliculas(pelicula);
                     tituloRep = pelicula.Title;
-                    contador++;
+                    //contador++;
+                    this.listenerBotones(pelicula);
+                    this.mostrarFormAnadir();
+                    this.cerrarVentana();
+                    this.filter();
                 }
             });
         }
@@ -46,7 +50,7 @@ const renderCartelera = {
     /**
      * listener de los botones mediante un addEventListener()
      */
-    listenerBotones: function () {
+    listenerBotones: function (pelicula) {
 
         const botones = document.querySelectorAll('.edicion');
         const peliculas = document.querySelectorAll('.pelicula');
@@ -54,13 +58,13 @@ const renderCartelera = {
         botones.forEach(boton => {
             boton.addEventListener('click', function () {
 
-                peliculas.forEach(pelicula => {
-                    if (boton.getAttribute('id') === pelicula.getAttribute('id')) {
+                peliculas.forEach(peli => {
+                    if (boton.getAttribute('id') === peli.getAttribute('id')) {
                         if (boton.getAttribute('name') === 'borrar') {
                             this.borrarCarta(pelicula);
                         } else {
                             document.getElementById('form').reset();
-                            this.mostrarFormEdicion(pelicula.getAttribute('name'));
+                            this.mostrarFormEdicion(peli.getAttribute('name'), pelicula);
                         }
                     }
                 })
@@ -74,16 +78,32 @@ const renderCartelera = {
      * borra la película de la lista
      * @param carta
      */
-    borrarCarta: function (carta) {
-        let indice = carta.getAttribute('id');
-        cartelera.splice(indice, 1);
-        carta.remove();
+    borrarCarta: function (pelicula) {
+        const uri = `http://localhost:3001/cartelera/${pelicula.id}`;
+
+            const deleteData = async (uri)=> {
+                let data = await fetch(uri, {
+                    method: 'DELETE',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                let content = data.json();
+                console.log(content);
+                location.reload();
+            }
+
+            deleteData(uri);
+            
+            
     },
     /**
      * muestra el formulario de edición
      * @param pelicula
      */
-    mostrarFormEdicion: function (pelicula) {
+    mostrarFormEdicion: function (peli, pelicula) {
 
         this.elementosOscurecer.forEach(elemento => {
             document.querySelector(elemento).classList.add('opacidad-fondo');
@@ -94,18 +114,6 @@ const renderCartelera = {
         this.modal.style.display = "block";
         this.scroll.style.display = "none";
         let inputForms = document.querySelectorAll('.inputForm');
-
-        cartelera.forEach(carta => {
-            if (carta.Title === pelicula) {
-                inputForms.forEach(input => {
-                    for (let key in carta) {
-                        if (input.getAttribute('name') === key) {
-                            input.value = carta[key];
-                        }
-                    }
-                });
-            }
-        });
 
 
         this.editarCarta(pelicula);
@@ -127,9 +135,11 @@ const renderCartelera = {
      * @param pelicula
      */
     editarCarta: function (pelicula) {
-        document.getElementById('submit').addEventListener('click', function () {
+        document.getElementById('submit').addEventListener('click', function (event) {
+            event.preventDefault();
             const formId = document.getElementById('form');
             const form = new FormData(formId);
+            let formObject = {};
 
             this.elementosOscurecer.forEach(elemento => {
                 document.querySelector(elemento).classList.remove('opacidad-fondo');
@@ -138,64 +148,36 @@ const renderCartelera = {
             this.modal.style.display = "none";
             this.scroll.style.display = "block";
 
-            this.renderNuevaCartelera(form.get('Title'), form.get('Genre'), form.get('Year'),
-                form.get('Runtime'), form.get('Poster'), form.get('Plot'), form.get('Director'), form.get('Released'),
-                form.get('Writer'), form.get('Actors'), form.get('Awards'), form.get('imdbRating'), pelicula);
+            form.forEach((value, key) => {
+                formObject[key] = value;
+            });
 
+            formObject['Poster'] = `img/subir/${formObject.Poster.name}`
+            //cartelera.push(formObject);
+            // ACTUALIZAR ELEMENTO API REST
+            const uri = `http://localhost:3001/cartelera/${pelicula.id}`;
+
+            const updateData = async (uri)=> {
+                let data = await fetch(uri, {
+                    method: 'PUT',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formObject)
+                });
+
+                let content = data.json();
+                console.log(content);
+                location.reload();
+            }
+            updateData(uri);
 
         }.bind(this));
 
     },
-    /**
-     * renderiza la nueva cartelera
-     * @param Title
-     * @param Genre
-     * @param Year
-     * @param Runtime
-     * @param Poster
-     * @param Plot
-     * @param Director
-     * @param Released
-     * @param Writer
-     * @param Actors
-     * @param Awards
-     * @param imdbRating
-     * @param pelicula
-     */
-    renderNuevaCartelera: function (Title, Genre, Year, Runtime, Poster, Plot, Director, Released, Writer, Actors, Awards, imdbRating, pelicula) {
-        cartelera.forEach(carta => {
-            if (carta.Title === pelicula) {
-                carta.Title = Title;
-                carta.Genre = Genre;
-                carta.Year = Year;
-                carta.Runtime = Runtime;
-                if (Poster.name.includes('.jpg') || Poster.name.includes('.png') || Poster.name.includes('.jpeg')) {
-                    carta.Poster = `img/subir/${Poster.name}`;
-                }
-                carta.Plot = Plot;
-                carta.Director = Director;
-
-                if (Released !== "") {
-                    carta.Released = Released;
-                }
-                carta.Writer = Writer;
-                carta.Actors = Actors;
-                carta.Awards = Awards;
-                carta.imdbRating = imdbRating;
-                this.cartelera.innerHTML = "";
-                this.renderCartelera();
-                this.listenerBotones();
-                this.back();
-                this.filter();
-                document.getElementById('form').reset();
-            }
-        });
-
-    },
-    /**
-     * muestra el formulario de añadir película
-     */
-    mostrarFormAnadir: function () {
+  
+    mostrarFormAnadir: function (pelicula) {
         document.querySelector('.add-button').addEventListener('click', function () {
             document.getElementById('form').reset();
             this.elementosOscurecer.forEach(elemento => {
@@ -212,7 +194,8 @@ const renderCartelera = {
      * añade un elemento a la cartelera
      */
     anadirElemento: function () {
-        document.getElementById('add').addEventListener('click', function () {
+        document.getElementById('add').addEventListener('click', function (event) {
+            event.preventDefault();
             const formId = document.getElementById('form');
             const form = new FormData(formId);
             let formObject = {};
@@ -224,7 +207,24 @@ const renderCartelera = {
                 });
 
                 formObject['Poster'] = `img/subir/${formObject.Poster.name}`
-                cartelera.push(formObject);
+                //cartelera.push(formObject);
+                // AÑADIR ELEMENTO API REST
+                const uri = 'http://localhost:3001/cartelera';
+
+                const addData = async (uri) => {
+                    let data = await fetch(uri, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formObject)
+                    });
+
+                    let content = data.json();
+                    console.log(content);
+                }
+                addData(uri);
 
                 this.elementosOscurecer.forEach(elemento => {
                     document.querySelector(elemento).classList.remove('opacidad-fondo');
@@ -235,11 +235,7 @@ const renderCartelera = {
                 this.modal.style.display = "none";
                 this.scroll.style.display = "block";
 
-                this.cartelera.innerHTML = "";
-
-                this.renderCartelera();
-                this.listenerBotones();
-                this.filter();
+                location.reload();
             }
 
 
@@ -285,10 +281,11 @@ const renderCartelera = {
                 document.querySelector('.cartelera').innerHTML += `No hay resultados para tu búsqueda.`;
             }
 
+            this.renderCartelera();;
 
-            this.cleanFilter();
-            this.listenerBotones();
-            this.filter();
+            // this.cleanFilter();
+            // this.listenerBotones(pelicula);
+            // this.filter();
 
         }.bind(this));
 
@@ -303,13 +300,13 @@ const renderCartelera = {
             this.cartelera.innerHTML = "";
             this.filter();
             this.renderCartelera();
-            this.listenerBotones();
+            this.listenerBotones(pelicula);
 
         }.bind(this));
     },
-    renderPeliculas: function (pelicula, contador) {
-        return `<div id="${contador}" class="pelicula" name="${pelicula.Title}" >
-                                            <div id="${contador}" class="img-container" name="${(pelicula.Title).toLowerCase()}" ><img src="${pelicula.Poster}" alt="${pelicula.Title}"></div>
+    renderPeliculas: function (pelicula) {
+        return `<div id="${pelicula.id}" class="pelicula" name="${pelicula.Title}" >
+                                            <div id="${pelicula.id}" class="img-container" name="${(pelicula.Title).toLowerCase()}" ><img src="${pelicula.Poster}" alt="${pelicula.Title}"></div>
                                             
                                             <div class="text-content">
                                                 <h2 class="titulo-pelicula">${(pelicula.Title).toUpperCase()}</h2>
@@ -321,8 +318,8 @@ const renderCartelera = {
                                                     <button>20:25</button>                                                
                                             </div>
                                             <div class="ediciones">
-                                            <button id="${contador}" class="edicion" name="editar"><i class="far fa-edit"></i></button>
-                                            <button id="${contador}" class="edicion" name="borrar"><i class="far fa-trash-alt"></i></button>
+                                            <button id="${pelicula.id}" class="edicion" name="editar"><i class="far fa-edit"></i></button>
+                                            <button id="${pelicula.id}" class="edicion" name="borrar"><i class="far fa-trash-alt"></i></button>
                                             </div>
                                             </div>
                                          </div>`;
@@ -358,7 +355,7 @@ const renderCartelera = {
             this.cartelera.innerHTML = "";
             this.renderCartelera();
             imageAsButton();
-            this.listenerBotones();
+            this.listenerBotones(pelicula);
             this.filter();
         }.bind(this));
     }
@@ -370,7 +367,3 @@ const renderCartelera = {
 }
 
 renderCartelera.renderCartelera();
-renderCartelera.listenerBotones();
-renderCartelera.cerrarVentana();
-renderCartelera.mostrarFormAnadir();
-renderCartelera.filter();
