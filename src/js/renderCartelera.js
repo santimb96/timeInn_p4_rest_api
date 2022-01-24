@@ -25,15 +25,34 @@ const renderCartelera = {
         const data = async () => {
             let data = await fetch(uri);
             let json = await data.json();
-            //let img = await json.Poster.blob();
 
-            console.log(json);
+            /*console.log(json)
+
+            let url = await json.Poster;
+            console.log(url);
+
+            let resImg = await fetch(url);
+            let blob = await resImg.blob();
+
+            img.src = URL.createObjectURL(blob);*/
+
+            //console.log(json);
 
             this.cartelera.innerHTML += `<h2 class="carteleraTitulo">CARTELERA</h2>`;
 
-            json.forEach(pelicula => {
+            for (const pelicula of json) {
+                const blobbingImg = async (pelicula) => {
+                    let resImg = await fetch(pelicula);
+                    let blob = await resImg.blob();
+                    let img = document.createElement('img');
+                    img.src = URL.createObjectURL(blob);
+                    return img;
+                }
+                const image = await blobbingImg(pelicula.Poster);
+                //console.log(image.outerHTML);
                 if (tituloRep !== pelicula.Title) {
-                    this.cartelera.innerHTML += this.renderPeliculas(pelicula);
+                    //outerHTML parsea el objeto blob a text para insertar en el HTML
+                    this.cartelera.innerHTML += this.renderPeliculas(pelicula, image.outerHTML);
                     tituloRep = pelicula.Title;
                     //contador++;
                     this.listenerBotones(pelicula);
@@ -41,7 +60,7 @@ const renderCartelera = {
                     this.cerrarVentana();
                     this.filter(pelicula);
                 }
-            });
+            }
         }
         data(uri);
     },
@@ -336,9 +355,9 @@ const renderCartelera = {
 
         }.bind(this));
     },
-    renderPeliculas: function (pelicula) {
+    renderPeliculas: function (pelicula, img) {
         return `<div id="${pelicula.id}" class="pelicula" name="${pelicula.Title}" >
-                                            <div id="${pelicula.id}" class="img-container" name="${(pelicula.Title).toLowerCase()}" ><img src="${pelicula.Poster}" alt="${pelicula.Title}"></div>
+                                            <div id="${pelicula.id}" class="img-container" name="${(pelicula.Title).toLowerCase()}" >${img}</div>
                                             
                                             <div class="text-content">
                                                 <h2 class="titulo-pelicula">${(pelicula.Title).toUpperCase()}</h2>
