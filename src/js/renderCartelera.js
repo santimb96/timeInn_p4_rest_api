@@ -223,8 +223,6 @@ const renderCartelera = {
 
             obj['Poster'] = `img/subir/${obj.Poster.name}`
 
-            //let obj = {name: "hi"};
-
             const addData = async (obj) => {
                 const uri = 'http://localhost:3001/cartelera'
                 const settings = {
@@ -237,22 +235,11 @@ const renderCartelera = {
                 };
                 let response = await fetch(uri, settings);
                 console.log(await response.json());
+                location.reload();
             }
             addData(obj).catch(e => {
                 console.error(e)
             });
-
-            this.elementosOscurecer.forEach(elemento => {
-                document.querySelector(elemento).classList.remove('opacidad-fondo');
-            });
-
-            this.edit.style.display = "block";
-            this.add.style.display = "none";
-            this.modal.style.display = "none";
-            this.scroll.style.display = "block";
-
-            this.cartelera.innerHTML = "";
-            this.renderCartelera();
 
         }.bind(this);
     },
