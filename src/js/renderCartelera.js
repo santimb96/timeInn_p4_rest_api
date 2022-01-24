@@ -19,7 +19,6 @@ const renderCartelera = {
      * renderiza la cartelera a prueba de errores
      */
     renderCartelera: function () {
-
         let tituloRep = "";
         const uri = 'http://localhost:3001/cartelera';
 
@@ -234,7 +233,6 @@ const renderCartelera = {
             this.scroll.style.display = "block";
 
             this.cartelera.innerHTML = "";
-
             this.renderCartelera();
 
         }.bind(this);
@@ -258,7 +256,6 @@ const renderCartelera = {
                 } else {
                     this.cartelera.innerHTML = 'No se han encontrado resultados';
                 }
-
             };
 
             filterData(uri).then(pelicula => {
@@ -358,7 +355,6 @@ const renderCartelera = {
                                             </div>
                                             </div>
                                          </div>`;
-
     },
     /**
      * valida los campos del formulario
@@ -394,11 +390,6 @@ const renderCartelera = {
             this.filter();
         }.bind(this));
     }
-    /*datePicker : function() {
-        $( "#datePicker" ).datepicker({
-            dateFormat: 'dd-mm-yy'
-        });
-    }*/
 }
 
 renderCartelera.renderCartelera();
