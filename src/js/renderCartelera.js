@@ -283,6 +283,7 @@ const renderCartelera = {
                                             </div>
                                             </div>
                                          </div>`;
+                this.listenerBotones(pelicula);
             });
 
 
@@ -324,8 +325,6 @@ const renderCartelera = {
             // this.cleanFilter();
             // this.listenerBotones(pelicula);
             // this.filter();
-            this.listenerBotones(pelicula);
-
         }.bind(this));
 
     },
