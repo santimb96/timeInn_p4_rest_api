@@ -51,7 +51,7 @@ const renderCartelera = {
                 const image = await blobbingImg(pelicula.Poster);
                 //console.log(image.outerHTML);
                 if (tituloRep !== pelicula.Title) {
-                    //outerHTML parsea el objeto blob a text para insertar en el HTML
+                    //outerHTML parsea el objeto blob a text para insertar en el HTML-
                     this.cartelera.innerHTML += this.renderPeliculas(pelicula, image.outerHTML);
                     tituloRep = pelicula.Title;
                     //contador++;
