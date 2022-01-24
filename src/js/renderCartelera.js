@@ -81,23 +81,23 @@ const renderCartelera = {
     borrarCarta: function (pelicula) {
         const uri = `http://localhost:3001/cartelera/${pelicula.id}`;
 
-            const deleteData = async (uri)=> {
-                let data = await fetch(uri, {
-                    method: 'DELETE',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                });
+        const deleteData = async (uri) => {
+            let data = await fetch(uri, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
 
-                let content = data.json();
-                console.log(content);
-                location.reload();
-            }
+            let content = data.json();
+            console.log(content);
+            location.reload();
+        }
 
-            deleteData(uri);
-            
-            
+        deleteData(uri);
+
+
     },
     /**
      * muestra el formulario de edición
@@ -157,7 +157,7 @@ const renderCartelera = {
             // ACTUALIZAR ELEMENTO API REST
             const uri = `http://localhost:3001/cartelera/${pelicula.id}`;
 
-            const updateData = async (uri)=> {
+            const updateData = async (uri) => {
                 let data = await fetch(uri, {
                     method: 'PUT',
                     headers: {
@@ -176,7 +176,7 @@ const renderCartelera = {
         }.bind(this));
 
     },
-  
+
     mostrarFormAnadir: function (pelicula) {
         document.querySelector('.add-button').addEventListener('click', function () {
             document.getElementById('form').reset();
@@ -245,43 +245,81 @@ const renderCartelera = {
      * filtra películas por género, año o título
      */
     filter: function () {
-        document.getElementById("filterButton").addEventListener('click', function () {
-            let contador = 0;
-            let filter = document.getElementById('filterInput').value;
-            filter = filter.toLowerCase();
-            let select = document.getElementById('filter');
-            let option = select.options[select.selectedIndex].value;
-            this.cartelera.innerHTML = `<h1>CARTELERA</h1>`;
-            cartelera.forEach(pelicula => {
-                if (option === 'Year') {
-                    if (pelicula.Year === filter) {
-                        this.cartelera.innerHTML += this.renderPeliculas(pelicula, contador);
-                        contador++;
-                    }
-                } else if (option === 'Title') {
-                    let titulo = pelicula.Title.toLowerCase();
-                    if (titulo.includes(filter)) {
-                        this.cartelera.innerHTML += this.renderPeliculas(pelicula, contador);
-                        contador++;
-                    }
-                } else if (option === 'Genre') {
-                    let genero = pelicula.Genre.toLowerCase();
-                    if (genero.includes(filter)) {
-                        this.cartelera.innerHTML += this.renderPeliculas(pelicula, contador);
-                        contador++;
-                    }
+        document.getElementById("filterButton").addEventListener('click', function (event) {
+            event.preventDefault();
+            // let contador = 0;
+            const filter = document.getElementById('filterInput').value;
+            const uri = `http://localhost:3001/cartelera/${filter}`;
+
+            const filterData = async (uri) => {
+
+                let respuesta = await fetch(uri);
+                if (respuesta.status === 200) {
+                    let pelicula = await respuesta.json();
+                    return await pelicula;
                 } else {
-                    console.log("ERROR");
+                    this.cartelera.innerHTML = 'No se han encontrado resultados';
                 }
+
+            };
+
+            filterData(uri).then(pelicula => {
+
+                this.cartelera.innerHTML = `<div id="${pelicula.id}" class="pelicula" name="${pelicula.Title}" >
+                                            <div id="${pelicula.id}" class="img-container" name="${(pelicula.Title).toLowerCase()}" ><img src="${pelicula.Poster}" alt="${pelicula.Title}"></div>
+                                            
+                                            <div class="text-content">
+                                                <h2 class="titulo-pelicula">${(pelicula.Title).toUpperCase()}</h2>
+                                                <h3 class="subtitulo-pelicula">${(pelicula.Genre).toLowerCase()} / 
+                                                ${(pelicula.Year).toLowerCase()} / ${(pelicula.Runtime).toLowerCase()}</h3>
+                                            
+                                            <br><div class="horarios">DIGITAL
+                                                    <button>15:50</button>
+                                                    <button>20:25</button>                                                
+                                            </div>
+                                            <div class="ediciones">
+                                            <button id="${pelicula.id}" class="edicion" name="editar"><i class="far fa-edit"></i></button>
+                                            <button id="${pelicula.id}" class="edicion" name="borrar"><i class="far fa-trash-alt"></i></button>
+                                            </div>
+                                            </div>
+                                         </div>`;
             });
 
-            document.getElementById('cleanFilter').style.display = "block";
 
-            if (contador === 0) {
-                document.querySelector('.cartelera').innerHTML += `No hay resultados para tu búsqueda.`;
-            }
 
-            this.renderCartelera();;
+            // let select = document.getElementById('filter');
+            // let option = select.options[select.selectedIndex].value;
+            // this.cartelera.innerHTML = `<h1>CARTELERA</h1>`;
+            // cartelera.forEach(pelicula => {
+            //     if (option === 'Year') {
+            //         if (pelicula.Year === filter) {
+            //             this.cartelera.innerHTML += this.renderPeliculas(pelicula, contador);
+            //             contador++;
+            //         }
+            //     } else if (option === 'Title') {
+            //         let titulo = pelicula.Title.toLowerCase();
+            //         if (titulo.includes(filter)) {
+            //             this.cartelera.innerHTML += this.renderPeliculas(pelicula, contador);
+            //             contador++;
+            //         }
+            //     } else if (option === 'Genre') {
+            //         let genero = pelicula.Genre.toLowerCase();
+            //         if (genero.includes(filter)) {
+            //             this.cartelera.innerHTML += this.renderPeliculas(pelicula, contador);
+            //             contador++;
+            //         }
+            //     } else {
+            //         console.log("ERROR");
+            //     }
+            // });
+
+            //document.getElementById('cleanFilter').style.display = "block";
+
+            // if (contador === 0) {
+            //     document.querySelector('.cartelera').innerHTML += `No hay resultados para tu búsqueda.`;
+            // }
+
+            // this.renderCartelera();;
 
             // this.cleanFilter();
             // this.listenerBotones(pelicula);
