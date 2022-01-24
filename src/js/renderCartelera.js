@@ -3,9 +3,7 @@
  * @version 1.0.0
  */
 //import {cartelera} from './modules/cartelera.js';
-import {
-    imageAsButton
-} from './modules/movieDescription.js';
+import {imageAsButton} from './modules/movieDescription.js';
 
 const renderCartelera = {
     /**
@@ -28,6 +26,7 @@ const renderCartelera = {
         const data = async () => {
             let data = await fetch(uri);
             let json = await data.json();
+            //let img = await json.Poster.blob();
 
             console.log(json);
 
@@ -194,52 +193,51 @@ const renderCartelera = {
      * añade un elemento a la cartelera
      */
     anadirElemento: function () {
-        document.getElementById('add').addEventListener('click', function (event) {
+        document.getElementById('add').onclick = function (event) {
             event.preventDefault();
             const formId = document.getElementById('form');
             const form = new FormData(formId);
-            let formObject = {};
+            let obj = {};
 
-            if (this.camposValidados()) {
+            form.forEach((value, key) => {
+                obj[key] = value;
+            });
 
-                form.forEach((value, key) => {
-                    formObject[key] = value;
-                });
+            obj['Poster'] = `img/subir/${obj.Poster.name}`
 
-                formObject['Poster'] = `img/subir/${formObject.Poster.name}`
-                //cartelera.push(formObject);
-                // AÑADIR ELEMENTO API REST
-                const uri = 'http://localhost:3001/cartelera';
+            //let obj = {name: "hi"};
 
-                const addData = async (uri) => {
-                    let data = await fetch(uri, {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(formObject)
-                    });
+            const addData = async (obj) => {
+                const uri = 'http://localhost:3001/cartelera'
+                const settings = {
+                    method: 'POST',
+                    body: JSON.stringify(obj),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
 
-                    let content = data.json();
-                    console.log(content);
-                }
-                addData(uri);
-
-                this.elementosOscurecer.forEach(elemento => {
-                    document.querySelector(elemento).classList.remove('opacidad-fondo');
-                });
-
-                this.edit.style.display = "block";
-                this.add.style.display = "none";
-                this.modal.style.display = "none";
-                this.scroll.style.display = "block";
-
-                location.reload();
+                };
+                let response = await fetch(uri, settings);
+                console.log(await response.json());
             }
+            addData(obj).catch(e => {
+                console.error(e)
+            });
 
+            this.elementosOscurecer.forEach(elemento => {
+                document.querySelector(elemento).classList.remove('opacidad-fondo');
+            });
 
-        }.bind(this))
+            this.edit.style.display = "block";
+            this.add.style.display = "none";
+            this.modal.style.display = "none";
+            this.scroll.style.display = "block";
+
+            this.cartelera.innerHTML = "";
+
+            this.renderCartelera();
+
+        }.bind(this);
     },
     /**
      * filtra películas por género, año o título
@@ -285,7 +283,6 @@ const renderCartelera = {
                                          </div>`;
                 this.listenerBotones(pelicula);
             });
-
 
 
             // let select = document.getElementById('filter');
