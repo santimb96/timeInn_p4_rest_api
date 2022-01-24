@@ -41,7 +41,7 @@ const renderCartelera = {
                     this.listenerBotones(pelicula);
                     this.mostrarFormAnadir();
                     this.cerrarVentana();
-                    this.filter();
+                    this.filter(pelicula);
                 }
             });
         }
@@ -244,7 +244,7 @@ const renderCartelera = {
     /**
      * filtra películas por género, año o título
      */
-    filter: function () {
+    filter: function (pelicula) {
         document.getElementById("filterButton").addEventListener('click', function (event) {
             event.preventDefault();
             // let contador = 0;
@@ -324,6 +324,7 @@ const renderCartelera = {
             // this.cleanFilter();
             // this.listenerBotones(pelicula);
             // this.filter();
+            this.listenerBotones(pelicula);
 
         }.bind(this));
 
