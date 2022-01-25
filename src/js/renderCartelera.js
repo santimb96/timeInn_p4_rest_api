@@ -223,8 +223,6 @@ const renderCartelera = {
 
             obj['Poster'] = `img/subir/${obj.Poster.name}`
 
-            //let obj = {name: "hi"};
-
             const addData = async (obj) => {
                 const uri = 'http://localhost:3002/cartelera'
                 const settings = {
