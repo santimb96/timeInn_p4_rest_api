@@ -10,59 +10,63 @@ export const login = {
         let validated = false;
         let user = "";
 
-        if(this.validarEmail(email) && this.validarPassword(password)){
-            usuarios.forEach(usuario => {
-                if(usuario.email === email && usuario.password === password){
-                    user = usuario.name;
-                    validated = true;
-                }
-            })
+        if (this.validarEmail(email) && this.validarPassword(password)) {
+            return true;
+        } else {
+            return false;
         }
-        return [user,validated];
     },
+    /*validarToken: function (obj, token) {
+        const cabecera = {"alg": "HS256", "typ": "JWT"};
+        const cabeceraCodificada = Buffer.from(JSON.stringify(cabecera)).toString('base64');
 
-    validarPassword: function (password){
+        const datos = obj;
+        const datosCodificados = Buffer.from(JSON.stringify(datos)).toString('base64');
+
+        const crypto = require('crypto');
+        const claveSecreta = 'clave_secreta';
+
+        const firma = crypto.createHmac('sha256', claveSecreta).update(cabeceraCodificada + '.' + datosCodificados).digest('base64');
+
+        const tokenJWT = `${cabeceraCodificada}.${datosCodificados}.${firma}`;
+
+        console.log(tokenJWT);
+        console.log(token);
+
+        if(tokenJWT === token){
+            return true;
+        } else {
+            return false;
+        }
+    },*/
+    validarPassword: function (password) {
         return this.passwordPattern.test(password);
     },
 
-    validarEmail: function (email){
+    validarEmail: function (email) {
         return this.emailPattern.test(email);
     },
 
     validarName: function (name) {
-      return this.namePattern.test(name);
+        return this.namePattern.test(name);
     },
 
-    passwordsIguales: function (password1,password2){
+    passwordsIguales: function (password1, password2) {
         return password1 === password2;
     },
+    register: function (email, password, password2) {
+        //const user = {email, name, password};
 
-    emailExiste: function(email){
-        let existe = false;
-        usuarios.forEach(usuario => {
-            if (usuario.email === email){
-                existe = true;
-            }
-        });
-        return existe;
-    },
-    register: function (name,email,password,password2){
-        const user = {email,name,password};
-
-        if (password === password2){
-            if (this.validarPassword(password) && this.validarEmail(email) && this.validarName(name)){
+        if (password === password2) {
+            if (this.validarPassword(password) && this.validarEmail(email)) {
                 //usuarios.push(user);
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
-        }
-        else {
+        } else {
             return false;
         }
-
     }
 
 }

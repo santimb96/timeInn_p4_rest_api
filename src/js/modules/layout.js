@@ -1,23 +1,17 @@
 const layout = {
     menu: ["home", "novedades", "cartelera", "promociones", "zona ocio"],
-    getUsername: function(name){
-        let cookieArr = document.cookie.split(";");
-        let username = "";
-        let encontrado = false;
-        cookieArr.forEach(elem => {
-            let cookiePair = elem.split("=");
-            if (name === cookiePair[0].trim()){
-                username = decodeURIComponent(cookiePair[1]);
-                encontrado = true;
+    getUsername: function(){
+        const cookie = document.cookie.split(';').map(function(c) {
+            return c.trim().split('=').map(decodeURIComponent);
+        }).reduce(function(a, b) {
+            try {
+                a[b[0]] = JSON.parse(b[1]);
+            } catch (e) {
+                a[b[0]] = b[1];
             }
-        })
-
-        if (encontrado){
-            return username;
-        }
-        else{
-            return "";
-        }
+            return a;
+        }, {});
+        return cookie.user.name;
     },
     header: function () {
         let output = "";
