@@ -20,7 +20,7 @@ const renderCartelera = {
      */
     renderCartelera: function () {
         let tituloRep = "";
-        const uri = 'http://localhost:3001/cartelera';
+        const uri = 'http://localhost:3002/cartelera';
 
         const data = async () => {
             let data = await fetch(uri);
@@ -96,7 +96,7 @@ const renderCartelera = {
      * @param carta
      */
     borrarCarta: function (pelicula) {
-        const uri = `http://localhost:3001/cartelera/${pelicula.id}`;
+        const uri = `http://localhost:3002/cartelera/${pelicula.id}`;
 
         const deleteData = async (uri) => {
             let data = await fetch(uri, {
@@ -172,7 +172,7 @@ const renderCartelera = {
             formObject['Poster'] = `img/subir/${formObject.Poster.name}`
             //cartelera.push(formObject);
             // ACTUALIZAR ELEMENTO API REST
-            const uri = `http://localhost:3001/cartelera/${pelicula.id}`;
+            const uri = `http://localhost:3002/cartelera/${pelicula.id}`;
 
             const updateData = async (uri) => {
                 let data = await fetch(uri, {
@@ -226,7 +226,7 @@ const renderCartelera = {
             //let obj = {name: "hi"};
 
             const addData = async (obj) => {
-                const uri = 'http://localhost:3001/cartelera'
+                const uri = 'http://localhost:3002/cartelera'
                 const settings = {
                     method: 'POST',
                     body: JSON.stringify(obj),
@@ -237,22 +237,11 @@ const renderCartelera = {
                 };
                 let response = await fetch(uri, settings);
                 console.log(await response.json());
+                location.reload();
             }
             addData(obj).catch(e => {
                 console.error(e)
             });
-
-            this.elementosOscurecer.forEach(elemento => {
-                document.querySelector(elemento).classList.remove('opacidad-fondo');
-            });
-
-            this.edit.style.display = "block";
-            this.add.style.display = "none";
-            this.modal.style.display = "none";
-            this.scroll.style.display = "block";
-
-            this.cartelera.innerHTML = "";
-            this.renderCartelera();
 
         }.bind(this);
     },
@@ -264,7 +253,7 @@ const renderCartelera = {
             event.preventDefault();
             // let contador = 0;
             const filter = document.getElementById('filterInput').value;
-            const uri = `http://localhost:3001/cartelera/${filter}`;
+            const uri = `http://localhost:3002/cartelera/${filter}`;
 
             const filterData = async (uri) => {
 
