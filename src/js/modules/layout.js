@@ -43,7 +43,6 @@ const layout = {
         <div class="menu">
             ${this.renderMenu()}
         </div>`
-
         return output;
     },
     footerBar: `<div class="footer-bar"><button><i class="fas fa-ellipsis-h"></i></button></i></div>`,
@@ -147,7 +146,7 @@ const layout = {
 
         });
 
-        if (location.pathname === '/timeInn_p2/src/index.html'){
+        if (location.pathname === '/timeInn_p4_rest_api/src/index.html'){
             if (this.getUsername() !== null || this.getUsername() !== ""){
                 this.cerrarSesion();
             }
@@ -158,7 +157,7 @@ const layout = {
 
     cerrarSesion : function (){
         document.querySelector('.logOut').addEventListener('click', function(){
-            document.cookie = `username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; email=${this.getUsername('email')}`;
+            document.cookie = `user=;max-age=3600`;
             location.href="index.html";
         }.bind(this));
     }

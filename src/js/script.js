@@ -3,7 +3,7 @@
  * @version 1.0.0
  */
 import {promociones} from "./modules/promociones.js";
-import {novedades} from "./modules/novedades.js";
+//import {novedades} from "./modules/novedades.js";
 import {calendario} from "./modules/calendario.js";
 
 
@@ -17,45 +17,57 @@ const app = {
     /**
      * renderiza las novedades del módulo novedades.js
      */
-    renderNovedades: function () {
+    render: function () {
 
-        const ordenado = novedades.sort(function (a, b) {
-            if (b.Year > a.Year) {
-                return 1;
+        const cookie = document.cookie.split(';').map(function(c) {
+            return c.trim().split('=').map(decodeURIComponent);
+        }).reduce(function(a, b) {
+            try {
+                a[b[0]] = JSON.parse(b[1]);
+            } catch (e) {
+                a[b[0]] = b[1];
             }
-            if (b.Year < a.Year) {
-                return -1;
-            }
-            return 0;
-        });
+            return a;
+        }, {});
 
-        ordenado.forEach(novedad => {
-            this.novedades.innerHTML += `<div class="novedad">
+        if(!['', null, undefined].includes(cookie.user.token)){
+            const renderNovedades = async () => {
+                const response = await fetch('http://localhost:3003/novedades');
+                return await response.json();
+            }
+            renderNovedades().then(data => {
+                data.forEach(novedad => {
+                    this.novedades.innerHTML += `<div class="novedad">
                                             <img src="${novedad.Poster}" alt="${novedad.Title}">
                                             <h2>${novedad.Title}</h2>
                                             <p>${novedad.Year}</p>
                                         </div>`;
-        });
-    },
-    /**
-     * renderiza las promociones
-     */
-    renderPromociones: function () {
-        promociones.forEach(promocion => {
-            this.promociones.innerHTML += `<div class="promocion">
+                });
+            });
+
+            const renderPromociones = async () => {
+                const response = await fetch('http://localhost:3003/promociones');
+                return await response.json();
+            }
+            renderPromociones().then(data => {
+                data.forEach(promocion => {
+                    this.promociones.innerHTML += `<div class="promocion">
                                             <img src="${promocion.Poster}" alt="${promocion.Titulo}">
                                             <h2>${promocion.Titulo}</h2>
                                         </div>`;
-        })
+                });
+            });
+        } else {
+            this.novedades.innerHTML = 'Logueate';
+            this.promociones.innerHTML = 'Logueate';
+        }
+
     },
-    /**
-     * renderiza el calendario del módulo
-     */
+
     renderCalendario: function () {
         this.calendario.innerHTML += calendario.calendario();
     },
 
 }
-app.renderNovedades();
-app.renderPromociones();
+app.render();
 app.renderCalendario();
