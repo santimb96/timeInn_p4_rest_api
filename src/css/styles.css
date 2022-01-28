@@ -1126,4 +1126,28 @@ DATA PICKER
         color: var(--negro);
     }
 
+    /**
+    MENSAJE LOGIN
+     */
+
+    .msj-log, .msj-promo {
+        display: flex;
+        width: 100%;
+    }
+    .mensaje-login{
+        width: 100%;
+        background: black;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .msj-enlace {
+        transition: 0.2s;
+        color: grey;
+    }
+    .msj-enlace:hover{
+        color: white;
+    }
 }

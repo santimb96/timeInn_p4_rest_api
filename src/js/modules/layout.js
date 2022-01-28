@@ -11,7 +11,7 @@ const layout = {
             }
             return a;
         }, {});
-        return cookie.user.name;
+        return cookie.user;
     },
     header: function () {
         let output = "";
@@ -20,10 +20,10 @@ const layout = {
                 <a href="index.html"><img src="img/logoPalmimax.png" alt="Logo"></a>`
 
         if (screen.width >= 1050){
-            if (this.getUsername('username') !== ""){
+            if (!['', null, undefined].includes(this.getUsername())){
                 output +=
                     `<div class="login">
-                        <div class="logged-name">Hola, ${this.getUsername('username')}</div>
+                        <div class="logged-name">Hola, ${this.getUsername().name}</div>
                         <button class="logOut">Log Out</button>
                     </div>`
             }
@@ -92,9 +92,9 @@ const layout = {
         output += `</ul>`;
 
         if (screen.width < 1050){
-            if (this.getUsername('username') !== ""){
+            if (!['', null, undefined].includes(this.getUsername())){
                     output += `<div class="log">`;
-                    output += `<div class="logged-name">Hola, ${this.getUsername('username')}</div>`;
+                    output += `<div class="logged-name">Hola, ${this.getUsername().name}</div>`;
                     output += `<button class="logOut">Log Out</button>`;}
             else{
                 output += `<div class="log">`;
@@ -147,7 +147,7 @@ const layout = {
         });
 
         if (location.pathname === '/timeInn_p4_rest_api/src/index.html'){
-            if (this.getUsername() !== null || this.getUsername() !== ""){
+            if (this.getUsername().name !== null || this.getUsername().name !== ""){
                 this.cerrarSesion();
             }
         }
@@ -157,8 +157,10 @@ const layout = {
 
     cerrarSesion : function (){
         document.querySelector('.logOut').addEventListener('click', function(){
-            document.cookie = `user=;max-age=3600`;
+            document.cookie ='user=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             location.href="index.html";
         }.bind(this));
     }
 }
+
+layout.header()
