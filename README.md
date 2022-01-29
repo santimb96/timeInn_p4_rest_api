@@ -203,4 +203,16 @@ También hemos añadido el botón log out el cual borra la cookie y por último,
 persistan tras hacer un registro de usuario. Como te hemos comentado en clase, nos añadía dos veces y por este motivo, hacemos un
 usuarios.pop() para que elimine el usuario repetido.
 
+## USO DE LAS APIS
+
+Nos encontramos con dos tipos de ejercicios: un CRUD y mostrar información en el frontpage dependiendo de si estamos o no logueados.
+
+Para realizar el crud, en lugar de usar el fichero crud.json, he metido el endpoint en el auth.json debido a que, si quisiéramos tener
+la información operativa en el servidor, el, CRUD y el JWT, tendríamos tres servidores encendidos en los puertos 3003, 3002 y 3001
+respectivamente, por lo que he decidido poner en auth.json el endpoint y así solo usar dos servidores fake en el 3002 y 3001.
+
+Por otra parte, para iniciar el auth.json hay que hacer un `npm run serve` y un `npm run dev` para arrancar, también, el fichero users.json.
+
+De todas maneras, en el directorio raíz se ha creado una carpeta denominada "api", la cual en el directorio raíz están los dos ficheros json y el package.json
+por si hubiera algún tipo de contratiempo tener los scripts preparados para consulta.
 

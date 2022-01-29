@@ -27,13 +27,10 @@ const renderCartelera = {
             let json = await data.json();
 
             /*console.log(json)
-
             let url = await json.Poster;
             console.log(url);
-
             let resImg = await fetch(url);
             let blob = await resImg.blob();
-
             img.src = URL.createObjectURL(blob);*/
 
             //console.log(json);
@@ -49,17 +46,17 @@ const renderCartelera = {
                     return img;
                 }
                 const image = await blobbingImg(pelicula.Poster);
+                console.log(pelicula);
                 //console.log(image.outerHTML);
-                if (tituloRep !== pelicula.Title) {
                     //outerHTML parsea el objeto blob a text para insertar en el HTML-
                     this.cartelera.innerHTML += this.renderPeliculas(pelicula, image.outerHTML);
                     tituloRep = pelicula.Title;
                     //contador++;
-                    this.listenerBotones(pelicula);
+                    this.listenerBotones(json);
                     this.mostrarFormAnadir();
                     this.cerrarVentana();
                     this.filter(pelicula);
-                }
+
             }
         }
         data(uri);
@@ -69,27 +66,39 @@ const renderCartelera = {
      */
     listenerBotones: function (pelicula) {
 
+        console.log(pelicula)
         const botones = document.querySelectorAll('.edicion');
         const peliculas = document.querySelectorAll('.pelicula');
+        let peliId = "";
 
         botones.forEach(boton => {
             boton.addEventListener('click', function () {
 
                 peliculas.forEach(peli => {
-                    if (boton.getAttribute('id') === peli.getAttribute('id')) {
+                    if (boton.getAttribute('id') === peli.getAttribute('id')
+                    ) {
+                        peliId = peli.getAttribute('id');
                         if (boton.getAttribute('name') === 'borrar') {
-                            this.borrarCarta(pelicula);
+                            pelicula.forEach(peli => {
+                                if(peli.id === +peliId){
+                                    this.borrarCarta(peli);
+                                }
+                            });
                         } else {
                             document.getElementById('form').reset();
-                            this.mostrarFormEdicion(peli.getAttribute('name'), pelicula);
+                            pelicula.forEach(peli => {
+                               if(peli.id === +peliId){
+                                   this.mostrarFormEdicion(peli);
+                               }
+                            });
                         }
                     }
                 })
             }.bind(this))
         });
 
-        imageAsButton();
-        this.back();
+        imageAsButton(pelicula);
+        this.back(pelicula);
     },
     /**
      * borra la película de la lista
@@ -99,20 +108,18 @@ const renderCartelera = {
         const uri = `http://localhost:3002/cartelera/${pelicula.id}`;
 
         const deleteData = async (uri) => {
-            let data = await fetch(uri, {
+            await fetch(uri, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
             });
-
-            let content = data.json();
-            console.log(content);
-            location.reload();
         }
 
-        deleteData(uri);
+        deleteData(uri).then(() => {
+            location.reload();
+        });
 
 
     },
@@ -120,7 +127,7 @@ const renderCartelera = {
      * muestra el formulario de edición
      * @param pelicula
      */
-    mostrarFormEdicion: function (peli, pelicula) {
+    mostrarFormEdicion: function (pelicula) {
 
         this.elementosOscurecer.forEach(elemento => {
             document.querySelector(elemento).classList.add('opacidad-fondo');
@@ -152,6 +159,7 @@ const renderCartelera = {
      * @param pelicula
      */
     editarCarta: function (pelicula) {
+        console.log(pelicula)
         document.getElementById('submit').addEventListener('click', function (event) {
             event.preventDefault();
             const formId = document.getElementById('form');
@@ -175,7 +183,7 @@ const renderCartelera = {
             const uri = `http://localhost:3002/cartelera/${pelicula.id}`;
 
             const updateData = async (uri) => {
-                let data = await fetch(uri, {
+                await fetch(uri, {
                     method: 'PUT',
                     headers: {
                         'Accept': 'application/json',
@@ -183,18 +191,16 @@ const renderCartelera = {
                     },
                     body: JSON.stringify(formObject)
                 });
-
-                let content = data.json();
-                console.log(content);
-                location.reload();
             }
-            updateData(uri);
+            updateData(uri).then(() => {
+                location.reload();
+            });
 
         }.bind(this));
 
     },
 
-    mostrarFormAnadir: function (pelicula) {
+    mostrarFormAnadir: function () {
         document.querySelector('.add-button').addEventListener('click', function () {
             document.getElementById('form').reset();
             this.elementosOscurecer.forEach(elemento => {
@@ -246,7 +252,7 @@ const renderCartelera = {
     /**
      * filtra películas por género, año o título
      */
-    filter: function (pelicula) {
+    filter: function () {
         document.getElementById("filterButton").addEventListener('click', function (event) {
             event.preventDefault();
             // let contador = 0;
@@ -286,45 +292,6 @@ const renderCartelera = {
                                          </div>`;
                 this.listenerBotones(pelicula);
             });
-
-
-            // let select = document.getElementById('filter');
-            // let option = select.options[select.selectedIndex].value;
-            // this.cartelera.innerHTML = `<h1>CARTELERA</h1>`;
-            // cartelera.forEach(pelicula => {
-            //     if (option === 'Year') {
-            //         if (pelicula.Year === filter) {
-            //             this.cartelera.innerHTML += this.renderPeliculas(pelicula, contador);
-            //             contador++;
-            //         }
-            //     } else if (option === 'Title') {
-            //         let titulo = pelicula.Title.toLowerCase();
-            //         if (titulo.includes(filter)) {
-            //             this.cartelera.innerHTML += this.renderPeliculas(pelicula, contador);
-            //             contador++;
-            //         }
-            //     } else if (option === 'Genre') {
-            //         let genero = pelicula.Genre.toLowerCase();
-            //         if (genero.includes(filter)) {
-            //             this.cartelera.innerHTML += this.renderPeliculas(pelicula, contador);
-            //             contador++;
-            //         }
-            //     } else {
-            //         console.log("ERROR");
-            //     }
-            // });
-
-            //document.getElementById('cleanFilter').style.display = "block";
-
-            // if (contador === 0) {
-            //     document.querySelector('.cartelera').innerHTML += `No hay resultados para tu búsqueda.`;
-            // }
-
-            // this.renderCartelera();;
-
-            // this.cleanFilter();
-            // this.listenerBotones(pelicula);
-            // this.filter();
         }.bind(this));
 
     },
@@ -385,15 +352,7 @@ const renderCartelera = {
      */
     back: function () {
         document.getElementById('back').addEventListener('click', function () {
-            document.querySelector('.filter').style.display = "flex";
-            document.querySelector('.add-button').style.display = "block";
-            document.querySelector('.divBack').style.display = "none";
-            document.querySelector('.pelicula-content').innerHTML = "";
-            this.cartelera.innerHTML = "";
-            this.renderCartelera();
-            imageAsButton();
-            this.listenerBotones(pelicula);
-            this.filter();
+            location.reload();
         }.bind(this));
     }
 }

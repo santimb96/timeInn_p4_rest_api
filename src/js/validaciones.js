@@ -93,6 +93,29 @@ const validaciones = {
                     password: this.password.value
                 }
 
+                const repetido = async () => {
+                    const uri = 'http://localhost:3002/usuarios';
+
+                    const response = await fetch(uri);
+                    return await response.json();
+                }
+                repetido().then(data => {
+                        let repetido = false;
+                        data.forEach(email => {
+                            if (email.email === user.email) {
+                                repetido = true;
+                            }
+                        });
+                        if (repetido === false) {
+                            createUser(user).then(() => {
+                                location.href = 'mensaje.html';
+                            });
+                        } else {
+                            alert('Repetido!');
+                        }
+                    }
+                );
+
                 const createUser = async (user) => {
                     const uri = 'http://localhost:3001/auth/register';
 
@@ -105,19 +128,28 @@ const validaciones = {
                     }
 
                     let response = await fetch(uri, settings);
+
+                    await fetch ('http://localhost:3002/usuarios', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({email: user.email})
+                    })
                     let data = await response.json();
                     console.log(data);
 
                     return true;
                 }
-                if(createUser(user)){
-                    //document.cookie = `user=${JSON.stringify({name: this.email.value, token: token})};max-age=3600`;
-                    location.href = 'mensaje.html';
-                }
-                //location.href = 'mensaje.html';
-            } else {
-                console.log('ERROR en el registrado');
             }
+            /*   if(createUser(user)){
+                   //document.cookie = `user=${JSON.stringify({name: this.email.value, token: token})};max-age=3600`;
+                   location.href = 'mensaje.html';
+               }
+               //location.href = 'mensaje.html';
+           } else {
+               console.log('ERROR en el registrado');
+           }*/
         }.bind(this));
     },
     validarRegistro: function () {

@@ -35,7 +35,7 @@ const app = {
         if (cookie.user !== undefined) {
             if (cookie.user.token !== "") {
                 const renderNovedades = async () => {
-                    const response = await fetch('http://localhost:3003/novedades');
+                    const response = await fetch('http://localhost:3002/novedades');
                     return await response.json();
                 }
                 renderNovedades().then(data => {
@@ -49,7 +49,7 @@ const app = {
                 });
 
                 const renderPromociones = async () => {
-                    const response = await fetch('http://localhost:3003/promociones');
+                    const response = await fetch('http://localhost:3002/promociones');
                     return await response.json();
                 }
                 renderPromociones().then(data => {
