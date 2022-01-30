@@ -323,13 +323,14 @@ const validaciones = {
     },
 }
 
-if (location.pathname === '/timeInn_p4_rest_api/src/logIn.html') {
+if (['/timeInn_p4_rest_api/src/logIn.html', '/src/logIn.html'].includes(location.pathname)) {
     validaciones.validarLogIn();
     validaciones.focusLogIn();
     validaciones.eyesPassword();
-} else if (location.pathname === '/timeInn_p4_rest_api/src/signUp.html') {
+} else if (['/timeInn_p4_rest_api/src/signUp.html', '/src/signUp.html'].includes(location.pathname)) {
     validaciones.registrar();
     validaciones.eyesSignUp();
 
 }
 validaciones.validarRegistro();
+
