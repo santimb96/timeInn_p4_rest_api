@@ -216,3 +216,33 @@ Por otra parte, para iniciar el auth.json hay que hacer un `npm run serve` y un 
 De todas maneras, en el directorio raíz se ha creado una carpeta denominada "api", la cual en el directorio raíz están los dos ficheros json y el package.json
 por si hubiera algún tipo de contratiempo tener los scripts preparados para consulta.
 
+### a) LOGIN
+
+Para este se ha usado el método _basic auth_ que ofrece JWT, de manera que mediante el método GET, nosotros envíamos el email del usuario
+y la contraseña y si nos devuelve el _acces_token_ (un objeto con una clave hexadecimal), es que nos hemos logueado correctamente. Posteriormente, 
+comprobaremos ese token (guardado en una cookie de sesión), para poder mostrar las noticias y promociones que se encuentran en el frontpage.
+
+### b) REGISTRAR
+
+A la hora de registrar, tendremos que cumplir con una serie de validaciones (definidas en la práctica original), pero vienen a ser algo así como: <br>
+`nombre de usuario: toni99
+email: toniamengual@gmail.com
+contraseña: ToniTon123`
+
+A la hora de hacer un POST para registrar el usuario en `/auth/register`, también se hace un POST (de tan solo el email),
+a la ruta `/usuarios` del auth.json para así poder hacer el control de usuarios repetidos a la hora de registrarse, ya que no podemos
+obtener la lista de usuarios del JWT debido a que el sistema de autenticación no permite que estos se puedan mostrar.
+
+
+## AMPLIACIONES
+
+Se han cumplido las ampliaciones del JWT definidas en la práctica pero, además, se ha añadido que tampoco se muestren las noticias del frontpage a no ser
+que el usuario se haya logueado.
+
+Por otra parte, las imágenes obtenidas son de emplazamientos externos a la api, funcionales, de Amazon. A la hora de editar o añadir nuevas películas
+a la cartelera, hay que tener en cuenta que hay una ruta en la que hay imágenes para subir: `src/img/subir`.
+
+Es importante comprender que debido a problemas de CORS, puede que no se obtengan los datos del servidor JSON cuando ejecutamos la app en modo debug/live server.
+
+
+
