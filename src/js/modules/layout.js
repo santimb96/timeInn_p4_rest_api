@@ -146,7 +146,7 @@ const layout = {
 
         });
 
-        if (['/timeInn_p4_rest_api/src/index.html', '/src/index.html', 'timeInn_p4_rest_api/src/cartelera.html', '/src/cartelera.html'].includes(location.pathname)){
+        if (['/timeInn_p4_rest_api/src/index.html', '/src/index.html', '/timeInn_p4_rest_api/src/cartelera.html', '/src/cartelera.html'].includes(location.pathname)){
             if (this.getUsername().name !== null || this.getUsername().name !== ""){
                 this.cerrarSesion();
             }

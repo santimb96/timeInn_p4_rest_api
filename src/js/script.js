@@ -32,6 +32,9 @@ const app = {
             return a;
         }, {});
 
+        /**
+         * VALIDACIÓN PARA MOSTRAR LA INFO DEPENDIENDO DE SI HAY TOKEN EN COOKIE
+         */
         if (cookie.user !== undefined) {
             if (cookie.user.token !== "") {
                 const renderNovedades = async () => {

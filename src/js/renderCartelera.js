@@ -19,6 +19,10 @@ const renderCartelera = {
      * renderiza la cartelera a prueba de errores
      */
     renderCartelera: function () {
+        /**
+         * OBTENER DATA (GET)
+         * @type {string}
+         */
         let tituloRep = "";
         const uri = 'http://localhost:3002/cartelera';
 
@@ -105,6 +109,10 @@ const renderCartelera = {
      * @param carta
      */
     borrarCarta: function (pelicula) {
+        /**
+         * DELETE
+         * @type {string}
+         */
         const uri = `http://localhost:3002/cartelera/${pelicula.id}`;
 
         const deleteData = async (uri) => {
@@ -179,7 +187,10 @@ const renderCartelera = {
 
             formObject['Poster'] = `img/subir/${formObject.Poster.name}`
             //cartelera.push(formObject);
-            // ACTUALIZAR ELEMENTO API REST
+            /**
+             * EDITAR (UPDATE)
+             * @type {string}
+             */
             const uri = `http://localhost:3002/cartelera/${pelicula.id}`;
 
             const updateData = async (uri) => {
@@ -229,6 +240,11 @@ const renderCartelera = {
 
             obj['Poster'] = `img/subir/${obj.Poster.name}`
 
+            /**
+             * AÑADIR (POST)
+             * @param obj
+             * @returns {Promise<void>}
+             */
             const addData = async (obj) => {
                 const uri = 'http://localhost:3002/cartelera'
                 const settings = {
@@ -256,6 +272,9 @@ const renderCartelera = {
         document.getElementById("filterButton").addEventListener('click', function (event) {
             event.preventDefault();
             // let contador = 0;
+            /**
+             * FILTER
+             */
             const filter = document.getElementById('filterInput').value;
             const uri = `http://localhost:3002/cartelera/${filter}`;
 
